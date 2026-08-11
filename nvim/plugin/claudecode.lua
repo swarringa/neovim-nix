@@ -3,7 +3,11 @@ if vim.g.did_load_claudecode_plugin then
 end
 vim.g.did_load_claudecode_plugin = true
 
-require('claudecode').setup()
+require('claudecode').setup {
+  terminal = {
+    split_width_percentage = 0.5,
+  },
+}
 
 vim.keymap.set('n', '<leader>ac', '<cmd>ClaudeCode<cr>', { desc = '[a]i [c]laude toggle' })
 vim.keymap.set('n', '<leader>af', '<cmd>ClaudeCodeFocus<cr>', { desc = '[a]i claude [f]ocus' })

@@ -70,6 +70,8 @@ with final.pkgs.lib; let
     # ^ navigation/editing enhancement plugins
     # Useful utilities
     nvim-unception # Prevent nested neovim sessions | nvim-unception
+    claudecode-nvim # Claude Code integration | https://github.com/coder/claudecode.nvim
+    snacks-nvim # Used by claudecode-nvim for its terminal UI | https://github.com/folke/snacks.nvim
     # ^ Useful utilities
     # libraries that other plugins depend on
     sqlite-lua
@@ -87,6 +89,7 @@ with final.pkgs.lib; let
     # language servers, etc.
     lua-language-server
     nil # nix LSP
+    claude-code # CLI used by claudecode-nvim
   ];
 in {
   # This is the neovim derivation

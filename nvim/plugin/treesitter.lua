@@ -67,12 +67,12 @@ for lhs, query in pairs(textobject_keymaps) do
   vim.keymap.set({ 'x', 'o' }, lhs, select_textobject(query))
 end
 
-vim.keymap.set('n', '<leader>a', function()
+vim.keymap.set('n', '<leader>b', function()
   swap.swap_next '@parameter.inner'
-end)
-vim.keymap.set('n', '<leader>A', function()
+end, { desc = 'swap argument [b] forward' })
+vim.keymap.set('n', '<leader>B', function()
   swap.swap_previous '@parameter.inner'
-end)
+end, { desc = 'swap argument [B] backward' })
 
 vim.keymap.set({ 'n', 'x', 'o' }, ']m', function()
   move.goto_next_start('@function.outer', 'textobjects')

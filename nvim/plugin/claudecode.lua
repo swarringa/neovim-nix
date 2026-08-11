@@ -6,6 +6,9 @@ vim.g.did_load_claudecode_plugin = true
 require('claudecode').setup {
   terminal = {
     split_width_percentage = 0.5,
+    -- Don't force terminal/insert mode just because the window gained focus
+    -- (e.g. via <C-w> navigation) -- stay in normal mode until asked.
+    auto_insert = false,
   },
 }
 

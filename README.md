@@ -1,11 +1,10 @@
 # neovim-nix
 
-My  personal Neovim configuration, built and packaged with [Nix](https://nixos.org/) flakes.
+My  personal Neovim configuration, built and packaged as a [Nix](https://nixos.org/) flake.
 
 This repo was generated from the
 [`nix-community/kickstart-nix.nvim`](https://github.com/nix-community/kickstart-nix.nvim)
-template, which is the place to go for the general-purpose,
-un-opinionated starting point this config was built on top of. This
+template, which this config was built on top of. This
 README documents what's actually in *this* repo: the specific plugins,
 keymaps, and customizations layered on top of the template, and how to
 install it from here rather than from upstream.
@@ -28,7 +27,7 @@ Inherited from the template:
 
 ### NixOS (with flakes)
 
-1. Add this flake to your NixOS flake inputs:
+1. Add this flake to NixOS flake inputs:
 
    ```nix
    inputs.neovim-nix.url = "github:swarringa/neovim-nix";
@@ -53,9 +52,9 @@ Inherited from the template:
 > [!IMPORTANT]
 >
 > This flake uses `nixpkgs.wrapNeovimUnstable`, which has an unstable
-> signature. If you set `nixpkgs.follows = "nixpkgs";` when importing this
-> into your own flake, it may break — especially if your `nixpkgs` input
-> pins a different branch than the one this flake locks.
+> signature. If `nixpkgs.follows = "nixpkgs";` is set when importing this
+> into another flake, it may break — especially if that flake's
+> `nixpkgs` input pins a different branch than the one this flake locks.
 
 ### Non-NixOS
 
@@ -282,7 +281,7 @@ Config for each: `nvim/plugin/<name>.lua` unless noted otherwise.
   = 0.5`, default is 30%).
 - `auto_insert = false`: the Claude terminal buffer does *not*
   auto-switch to Terminal mode just because it gained focus (e.g. via
-  `<C-w>` window navigation) — it stays in whatever mode you left it in.
+  `<C-w>` window navigation) — it stays in whatever mode it was left in.
 - Keymaps, all under `<leader>a`:
   | Keymap | Action |
   | --- | --- |
@@ -315,12 +314,12 @@ history and telescope's history) finds the Nix-provided `sqlite`.
 nix run "github:swarringa/neovim-nix"
 ```
 
-## Editing your config
+## Editing the config
 
-When your Neovim setup is a Nix derivation, editing your config demands a
-different workflow than you're used to without Nix:
+Since this Neovim setup is a Nix derivation, editing it demands a
+different workflow than a plain dotfiles-based config would:
 
-- Make your changes and stage any new files[^1].
+- Make the changes and stage any new files[^1].
 - Run `nix run /path/to/neovim-nix#nvim` (or
   `nix run /path/to/neovim-nix#nvim -- <nvim-args>`).
 
@@ -329,21 +328,15 @@ different workflow than you're used to without Nix:
       under `nvim/` will silently be excluded from the build.
 
 This rebuilds the `nvim` derivation, but has the advantage that if
-anything breaks, it's only broken during your test run.
+anything breaks, it's only broken during that test run.
 
-For a faster, impure feedback loop, you can instead point
-`$XDG_CONFIG_HOME/nvim` (or `$NVIM_APPNAME`, which defaults to `nvim`) at
-a local checkout and edit it directly[^2]. Caveat: the wrapper Nix
-generates for the packaged derivation invokes `nvim -u
+For a faster, impure feedback loop, `$XDG_CONFIG_HOME/nvim` (or
+`$NVIM_APPNAME`, which defaults to `nvim`) can instead point at a local
+checkout, editable directly[^2]. Caveat: the wrapper Nix generates for
+the packaged derivation invokes `nvim -u
 /nix/store/.../generated-init.lua`, so it never sources a local
-`init.lua` — put anything you want it to notice in `nvim/plugin/` or
-`nvim/after/plugin/` instead, since those are sourced from the runtime
-path regardless.
+`init.lua` — anything that needs to be picked up this way has to go in
+`nvim/plugin/` or `nvim/after/plugin/` instead, since those are sourced
+from the runtime path regardless.
 
 [^2]: Assuming Linux; see `:h initialization` for Darwin paths.
-
-## Alternative / similar projects
-
-See the [`kickstart-nix.nvim` README](https://github.com/nix-community/kickstart-nix.nvim#link-alternative--similar-projects)
-for a rundown of comparable projects (`kickstart.nvim`, `neovim-flake`,
-`NixVim`, `nixCats-nvim`, `lz.n`).
